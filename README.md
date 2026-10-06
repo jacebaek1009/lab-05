@@ -2,8 +2,8 @@
 
 ## Student Details
 
-- **Full Name:** `<Enter name>`
-- **CCID:** `<Enter ccid>`
+- **Full Name:** `Jace Baek`
+- **CCID:** `seonheum`
 
 ## References and Resources
 
