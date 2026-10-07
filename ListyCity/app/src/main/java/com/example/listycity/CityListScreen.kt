@@ -32,6 +32,7 @@ fun CityListScreen(
     cities: List<City>,
     onAddCity: (City) -> Unit,
     onUpdateCity: (City, City) -> Unit,
+    onDeleteCity: (City) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var newCityName by remember { mutableStateOf("") }
@@ -63,7 +64,6 @@ fun CityListScreen(
         if (showAddCityFields) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(16.dp)
             ) {
                 OutlinedTextField(
@@ -107,27 +107,8 @@ fun CityListScreen(
         if (selectedCity != null) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                OutlinedTextField(
-                    value = editedCityName,
-                    onValueChange = { editedCityName = it },
-                    label = { Text("Updated City") },
-                    modifier = Modifier.weight(1f)
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                OutlinedTextField(
-                    value = editedProvinceName,
-                    onValueChange = { editedProvinceName = it },
-                    label = { Text("Updated Province") },
-                    modifier = Modifier.weight(1f)
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
                 Button(
                     modifier = Modifier.padding(vertical = 12.dp),
                     onClick = {
@@ -153,6 +134,39 @@ fun CityListScreen(
                 ) {
                     Text("UPDATE CITY")
                 }
+                Button (
+                    onClick = {
+                        selectedCity?.let { city ->
+                            onDeleteCity(city)
+                            selectedCity = null
+                        }
+                    },
+                    enabled = selectedCity != null
+                ){
+                    Text("DELETE CITY")
+                }
+            }
+        }
+        if (selectedCity != null) {
+            Row(
+                modifier = Modifier
+                    .padding(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = editedCityName,
+                    onValueChange = { editedCityName = it },
+                    label = { Text("Updated City") },
+                    modifier = Modifier.weight(1f)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                OutlinedTextField(
+                    value = editedProvinceName,
+                    onValueChange = { editedProvinceName = it },
+                    label = { Text("Updated Province") },
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -213,7 +227,8 @@ fun CityListScreenPreview() {
                 City("Calgary", "AB")
             ),
             onAddCity = {},
-            onUpdateCity = { _, _ -> }
+            onUpdateCity = { _, _ -> },
+            onDeleteCity = {}
         )
     }
 }
